@@ -54,7 +54,7 @@
     </style>
   </head>
   <body>
-    <h2>LRV and URV Calculator</h2>
+    <h2>Scale Calculator</h2>
     <label for="lrv">LRV:</label>
     <input type="number" id="lrv" placeholder="Enter LRV" />
 
@@ -156,8 +156,7 @@
 
         // Calculate and display results
         const percentage = ((signalvalue1 - zero) / (span - zero)) * 100;
-        const Value =
-          ((signalvalue1 - zero) / (span - zero)) * (urv - lrv) + lrv;
+        const Value =((signalvalue1 - zero) / (span - zero)) * (urv - lrv) + lrv;
 
         const newRow = resultTable1.insertRow(-1);
         const cell1 = newRow.insertCell(0);
@@ -204,8 +203,7 @@
 
         // Calculate and display results
         const percentage = ((unitValue2 - lrv) / (urv - lrv)) * 100;
-        const signalValue1 =
-          ((unitValue2 - lrv) / (urv - lrv)) * (span - zero) + zero;
+        const signalValue1 = ((unitValue2 - lrv) / (urv - lrv)) * (span - zero) + zero;
 
         const newRow = resultTable2.insertRow(-1);
         const cell1 = newRow.insertCell(0);
@@ -262,7 +260,7 @@
         const cell3 = newRow.insertCell(2);
         const cell4 = newRow.insertCell(3);
 
-        cell1.textContent = unitvalue3;
+        cell1.textContent = unitvalue3 .toFixed(2);
         cell2.textContent = unit;
         cell3.textContent = signalValue3.toFixed(2);
         cell4.textContent = signalUnit;
@@ -309,10 +307,150 @@
         const cell2 = newRow.insertCell(1);
         const cell3 = newRow.insertCell(2);
 
-        cell1.textContent = `${percentage}%`;
+        cell1.textContent = `${percentage .toFixed(2)}%`;
         cell2.textContent = sqrtValue.toFixed(2);
         cell3.textContent = signalUnit;
       }
     </script>
+    <br />
+        <h2>Input Flowrate Scale</h2>
+
+        <label for="min">MIN:</label>
+        <input type="number" id="min" placeholder="Enter Min Flowrate" />
+
+        <label for="max">MAX:</label>
+        <input type="number" id="max" placeholder="Enter Max Flowrate" />
+
+        <label for="frunit">Flowrate Unit:</label>
+        <input type="text" id="frunit" placeholder="Enter Flowrate Unit" />
+      
+        <label for="flowrate">Flowrate:</label>
+        <input type="number" id="flowrate" placeholder="Enter Flowrate" />
+        <button onclick="calculateValues5()">Calculate</button>
+        
+        <h3>Result:</h3>
+          <table id="resultTable5">
+          <caption></caption>
+         <tr>
+        <th>PercentageSQRT</th>
+        <th>Signal SQRT </th>
+        <th>Unit</th>
+        <th>Pressure</th>
+        <th>Unit</th>
+        <th>Signal Linier</th>
+        <th>Unit</th>
+      </tr>
+        </table>
+        
+        <script>
+        
+          function calculateValues5() {
+            const lrv = parseFloat(document.getElementById("lrv").value);
+            const urv = parseFloat(document.getElementById("urv").value);
+            const min = parseFloat(document.getElementById("min").value);
+            const max = parseFloat(document.getElementById("max").value);
+            const unit = document.getElementById("unit").value;
+            const zero = parseFloat(document.getElementById("zero").value);
+            const span = parseFloat(document.getElementById("span").value);
+            const signalUnit = document.getElementById("signalUnit").value;
+            const flowrate = parseFloat(document.getElementById("flowrate").value);
+            const resultTable5 = document.getElementById("resultTable5");
+    
+            // Clear previous results
+            resultTable5.innerHTML =
+              "<tr><th>PercentageSQRT</th><th>Signal SQRT</th><th>Unit</th><th>Pressure</th><th>Unit</th><th>Signal Linier</th><th>Unit</th></tr>";
+    
+            // Calculate and display results
+    
+            const sigsqrt = ((flowrate - min) / (max - min)) * (span - zero) + zero;
+            const percentage = ((sigsqrt - zero) / (span - zero)) * 100;
+            const siglin = (((sigsqrt - zero)**2) / (span - zero)) + zero;
+            const press = ((siglin - zero) / (span - zero)) * (urv - lrv) + lrv;
+
+            const newRow = resultTable5.insertRow(-1);
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            const cell4 = newRow.insertCell(3);
+            const cell5 = newRow.insertCell(4);
+            const cell6 = newRow.insertCell(5);
+            const cell7 = newRow.insertCell(6);
+    
+            cell1.textContent = `${percentage.toFixed(2)}%`;
+            cell2.textContent = sigsqrt.toFixed(2);
+            cell3.textContent = signalUnit;
+            cell4.textContent = press .toFixed(2);
+            cell5.textContent = unit;
+            cell6.textContent = siglin .toFixed(2);
+            cell7.textContent = signalUnit;
+          }
+        </script>
+
+        <br />
+        <br />
+
+        <label for="press1">Pressure:</label>
+        <input type="number" id="press1" placeholder="Enter Pressure Value" />
+       
+        <button onclick="calculateValues6()">Calculate</button>
+
+        <h3>Result:</h3>
+        <table id="resultTable7">
+        <caption></caption>
+       <tr>
+      <th>Percentage</th>
+      <th>Signal Linier</th>
+      <th>Unit</th>
+      <th>Flowrate</th>
+      <th>Unit</th>
+      <th>Signal SQRT</th>
+      <th>Unit</th>
+    </tr>
+      </table>
+      
+      <script>
+      
+        function calculateValues6() {
+          const lrv = parseFloat(document.getElementById("lrv").value);
+          const urv = parseFloat(document.getElementById("urv").value);
+          const unit = document.getElementById("unit").value;
+          const min = parseFloat(document.getElementById("min").value);
+          const max = parseFloat(document.getElementById("max").value);
+          const zero = parseFloat(document.getElementById("zero").value);
+          const span = parseFloat(document.getElementById("span").value);
+          const signalUnit = document.getElementById("signalUnit").value;
+          const press1 = parseFloat(document.getElementById("press1").value);
+          const frunit = document.getElementById("signalUnit").value;
+          const resultTable7 = document.getElementById("resultTable7");
+  
+          // Clear previous results
+          resultTable7.innerHTML =
+            "<tr><th>PercentageSQRT</th><th>Signal Linier</th><th>Unit</th><th>Flowrate</th><th>Unit</th><th>Signal SQRT</th><th>Unit</th></tr>";
+  
+          // Calculate and display results
+          const percentage = ((press1 - lrv) / (urv - lrv)) * 100;
+          const siglin = ((press1 - lrv) / (urv - lrv)) * (span - zero)+ zero;
+          const sigsqrt = Math.sqrt((siglin - zero) / (span - zero)) * (span - zero) + zero;
+          const flowrate = ((sigsqrt - zero) / (span - zero)) * (max - min) + min;
+
+          const newRow = resultTable7.insertRow(-1);
+          const cell1 = newRow.insertCell(0);
+          const cell2 = newRow.insertCell(1);
+          const cell3 = newRow.insertCell(2);
+          const cell4 = newRow.insertCell(3);
+          const cell5 = newRow.insertCell(4);
+          const cell6 = newRow.insertCell(5);
+          const cell7 = newRow.insertCell(6);
+  
+          cell1.textContent = `${percentage.toFixed(2)}%`;
+          cell2.textContent = siglin.toFixed(2);
+          cell3.textContent = signalUnit;
+          cell4.textContent = flowrate .toFixed(2);
+          cell5.textContent = frunit;
+          cell6.textContent = sigsqrt .toFixed(2);
+          cell7.textContent = signalUnit;
+        }
+      </script>
+
   </body>
 </html>
