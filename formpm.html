@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preventive Maintenance - Control Valve Check</title>
+    <style>
+        /* CSS styling */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Preventive Maintenance - Control Valve Check</h2>
+        <div id="equipmentForms">
+            <!-- Initial form for the first equipment -->
+            <form class="equipmentForm">
+                <label for="valveNumber">Valve Number:</label>
+                <input type="text" class="valveNumber" name="valveNumber" required>
+
+                <label for="checkDate">Check Date:</label>
+                <input type="date" class="checkDate" name="checkDate" required>
+
+                <label for="checkBy">Checked By:</label>
+                <input type="text" class="checkBy" name="checkBy" required>
+
+                <label for="valvePosition">Valve Position:</label>
+                <input type="text" class="valvePosition" name="valvePosition" required>
+
+                <label for="positionerCondition">Positioner Condition:</label>
+                <select class="positionerCondition" name="positionerCondition" required>
+                    <option value="none">None</option>
+                    <option value="corrosion">Corrosion</option>
+                    <option value="crack">Crack</option>
+                    <option value="leakage_out">Leakage Out</option>
+                    <option value="leakage_throw">Leakage Throw</option>
+                </select>
+
+                <label for="valveCondition">Valve Condition:</label>
+                <textarea class="valveCondition" name="valveCondition" rows="4" required></textarea>
+            </form>
+        </div>
+        <input type="text" id="fileName" placeholder="Enter file name...">
+        <button type="button" onclick="addEquipmentForm()">Add Equipment</button>
+        <button type="button" onclick="generateCSV()">Download CSV File</button>
+    </div>
+
+    <script>
+        function addEquipmentForm() {
+            var equipmentForms = document.getElementById('equipmentForms');
+            var newForm = document.createElement('form');
+            newForm.classList.add('equipmentForm');
+            newForm.innerHTML = `
+                <label for="valveNumber">Valve Number:</label>
+                <input type="text" class="valveNumber" name="valveNumber" required>
+
+                <label for="checkDate">Check Date:</label>
+                <input type="date" class="checkDate" name="checkDate" required>
+
+                <label for="checkBy">Checked By:</label>
+                <input type="text" class="checkBy" name="checkBy" required>
+
+                <label for="valvePosition">Valve Position:</label>
+                <input type="text" class="valvePosition" name="valvePosition" required>
+
+                <label for="positionerCondition">Positioner Condition:</label>
+                <select class="positionerCondition" name="positionerCondition" required>
+                    <option value="none">None</option>
+                    <option value="corrosion">Corrosion</option>
+                    <option value="crack">Crack</option>
+                    <option value="leakage_out">Leakage Out</option>
+                    <option value="leakage_throw">Leakage Throw</option>
+                </select>
+
+                <label for="valveCondition">Valve Condition:</label>
+                <textarea class="valveCondition" name="valveCondition" rows="4" required></textarea>
+            `;
+            equipmentForms.appendChild(newForm);
+        }
+
+        function generateCSV() {
+            var equipmentForms = document.querySelectorAll('.equipmentForm');
+            var csvContent = "Valve Number,Check Date,Checked By,Valve Position,Positioner Condition,Valve Condition\n";
+            var fileName = document.getElementById('fileName').value || 'pm_check'; // Default file name
+
+            equipmentForms.forEach(function(form) {
+                var valveNumber = form.querySelector('.valveNumber').value;
+                var checkDate = form.querySelector('.checkDate').value;
+                var checkBy = form.querySelector('.checkBy').value;
+                var valvePosition = form.querySelector('.valvePosition').value;
+                var positionerCondition = form.querySelector('.positionerCondition').value;
+                var valveCondition = form.querySelector('.valveCondition').value;
+
+                csvContent += `${valveNumber},${checkDate},${checkBy},${valvePosition},${positionerCondition},"${valveCondition}"\n`;
+            });
+
+            var blob = new Blob([csvContent], { type: 'text/csv' });
+            var link = document.createElement('a');
+            link.download = fileName + '.csv';
+            link.href = window.URL.createObjectURL(blob);
+            link.click();
+        }
+    </script>
+</body>
+</html>
